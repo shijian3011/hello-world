@@ -1,0 +1,81 @@
+{\rtf1\ansi\ansicpg936\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fnil\fcharset134 STSongti-SC-Regular;\f1\fnil\fcharset0 Menlo-Regular;\f2\fnil\fcharset134 STHeitiSC-Light;
+}
+{\colortbl;\red255\green255\blue255;\red14\green0\blue45;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww19540\viewh12800\viewkind0
+\deftab720
+\pard\pardeftab720\sl520
+
+\f0\fs28 \cf2 1.\'d5\'d2\'b5\'bd UIDisplayController \'b5\'e3\'bb\'f7\'ba\'f3 \'b8\'b2\'b8\'c7\'b5\'c4\'d2\'f5\'d3\'b0\
+iOS 7 \'b1\'e9\'c0\'fa\'d5\'d2\'b5\'bd 
+\f1 \CocoaLigature0 _UISearchDisplayControllerDimmingView\
+iOS6 
+\f2 \'b1\'e9\'c0\'fa
+\f0 \CocoaLigature1 \'d5\'d2\'b5\'bd \'a1\'b0UIControl\'a1\'b1\
+\pard\tx770\pardeftab770\pardirnatural
+
+\f1\fs20 \cf2 \CocoaLigature0 \
+double version = [[UIDevice currentDevice].systemVersion doubleValue];//
+\f2 \'c5\'d0\'b6\'a8\'cf\'b5\'cd\'b3\'b0\'e6\'b1\'be\'a1\'a3
+\f1 \
+if (version >= 7.0f) \{\
+  CGRect newFrame = self.dispController.searchResultsTableView.superview.frame;\
+  newFrame = CGRectMake(0, 55, 320, self.dispController.searchResultsTableView.superview.frame.size.height - 55);\
+  self.dispController.searchResultsTableView.superview.frame = newFrame;\
+  self.historyTableView.frame = CGRectMake(0, 0, 320, SCREENHEIGHT - keyboardRect.size.height - 55);\
+  for (UIView * sub in self.dispController.searchResultsTableView.superview.subviews) \{\
+       if ([sub isKindOfClass:NSClassFromString(@"_UISearchDisplayControllerDimmingView")]) \{\
+            [self.dispController.searchResultsTableView.superview insertSubview:self.historyTableView aboveSubview:sub];\
+         \}\
+       \}\
+    \}\
+     else\{\
+  for (UIView * sub in self.dispController.searchContentsController.view.subviews) \{\
+     if ([sub isKindOfClass:NSClassFromString(@"UIControl")]) \{\
+      _control = (UIControl *) sub;\
+      self.historyTableView.frame = CGRectMake(0, sub.frame.origin.y, 320, SCREENHEIGHT - keyboardRect.size.height - sub.frame.origin.y);\
+       [sub.superview insertSubview:self.historyTableView aboveSubview:sub];\
+      \}\
+\}\
+\}\
+\
+\
+\pard\pardeftab720\sl520
+
+\f0\fs28 \cf2 \CocoaLigature1 2.\'c8\'a5\'b5\'f4 UISearchBar \'b5\'c4\'b1\'b3\'be\'b0 
+\f1\fs20 \CocoaLigature0 \
+\pard\tx770\pardeftab770\pardirnatural
+\cf2 //searchbar
+\f2 \'c9\'e8\'d6\'c3
+\f1 \
+    //IOS7\
+    if ([self.searchBar respondsToSelector:@selector(barTintColor)])\
+    \{\
+        //IOS7 UIView\
+        UIView *tempView = [self.searchBar.subviews objectAtIndex:0];\
+        for (UIView *subview in tempView.subviews)\
+        \{\
+            if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")])\
+            \{\
+                [subview removeFromSuperview];\
+                break;\
+            \}\
+        \}\
+    \} else\
+    \{\
+        for (UIView *subview in self.searchBar.subviews)\
+        \{\
+            if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")])\
+            \{\
+                [subview removeFromSuperview];\
+                break;\
+            \}\
+            \
+            if ([subview isKindOfClass:NSClassFromString(@"UISegmentedControl")])\
+            \{\
+                [subview removeFromSuperview];\
+                break;\
+            \}\
+        \}\
+    \}\
+}
